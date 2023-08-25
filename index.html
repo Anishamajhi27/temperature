@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet"
+  href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: blue;
+            background: linear-gradient(90deg, rgb(14, 14, 14) 0%, rgb(115, 66, 69) 50%, rgb(234, 11, 11) 100%);
+            color: black;
+            font-size: 1rem;
+        }
+        .temperature-converter{
+            background-color: rgb(226, 11, 154);
+            width: 100%;
+            min-width: 320px;
+            padding: 20px 25px 45px;
+            border-radius: 5px;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-shadow: -5px -5px 250px;
+            backdrop-filter: blur(20px);
+        }
+        .mobile{
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+            font-weight: 700;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        .title{
+            color: black;
+            font-size: 2.5rem;
+            text-align: center;
+        }
+        .result{
+            text-align: center;
+            margin: 20px 0;
+        }
+        .result-heading{
+            color: rgb(47, 45, 45);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        .celsius-value{
+            border-bottom:2px solid  black;
+            padding: 10px;
+            transition: all .45s ease;
+        }
+        .degree-type{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        .degree-field{
+            display: flex;
+            flex-direction: column;
+            width: 45%;
+        }
+        label{
+            color: black;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select{
+            background-color: transparent;
+            border: none;
+            outline:none;
+            border-bottom: 2px solid black;
+            padding: 8px;
+            margin-bottom: 15px;
+            font-weight: bold;
+
+        }
+        input:focus{
+            border: 1px solid rgb(132, 9, 109);
+        }
+        option{
+            background: black;
+            color: white;
+        }
+        #convert-btn{
+            border: none;
+            outline: none;
+            border-radius: 5px;
+            background:linear-gradient(90deg, white 10%,rgb(172, 56, 56) 40%,rgb(100, 5, 5) 100%);
+            font-weight: bold;
+            padding: 15px ;
+            color: white;
+            font: 1rem;
+            transition: all .3s ease-in;
+            text-transform: uppercase;
+            cursor: pointer;
+
+        }
+        #convert-btn:hover{
+            background:linear-gradient(90deg, rgb(100,5,5) 10%,rgb(172, 56, 56) 40%,rgb(225, 217, 217) 100%);
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="temperature-converter">
+            <div class="mobile">
+                <p>9.30 AM</p>
+                <div>
+                    <i class='bx bx-signal-5' ></i>
+                    <i class='bx bx-wifi'></i>
+                    <i class='bx bxs-battery' ></i>
+                </div>
+            </div>
+
+            <h2 class="title">Temperature Converter</h2>
+            <div class="result">
+                <span class="result-heading">Result (Calsius)</span>
+                <h2 class="celsius-value" id="celsius"></h2>
+            </div>
+
+            <div class="degree-type">
+                <div class="degree-field">
+                    <label for="degree">Degree</label>
+                    <input type="number" name="degree" id="degree">
+                </div>
+                <div class="temp-field">
+                    <label for="temp-type">Type</label>
+                    <select name="temperature" id="temp-type">
+                        <option value="fahrenheit" id="fahrenheit">fahrenheit</option>
+                        <option value="kelvin" id="kelvin">kelvin</option>
+                    </select>
+                </div>
+            </div>
+
+            <button id="convert-btn">Convert</button>
+        </div>
+    </div>
+    <script>
+        const calsiusfield = document.querySelector("#celsius");
+        const degree = document.querySelector("#degree");
+        const convertbtn = document.querySelector("#convert-btn");
+        const temptype = document.querySelector("#temp-type");
+
+        window.addEventListener("load",()=>{
+            degree.value="";
+            calsiusfield.innerHTML="";
+        })
+
+        convertbtn.addEventListener("click",(e)=>{
+            e.preventDefault();
+            converttocelsius();
+            convertbtn.innerHTML="<span><i class='fa fa-spinner fa-spin'></i> Converting...</span>"
+            setTimeout(() => {
+                convertbtn.innerHTML="<span>Convert</span>"
+            }, 500);
+        })
+        function converttocelsius(){
+            let inputValue=degree.value;
+            setTimeout(() => {
+                if(temptype.value ==="fahrenheit"){
+                const fahrenheittocalsius=(inputValue-32)*(5/9);
+                calsiusfield.innerHTML=`${fahrenheittocalsius.toFixed(3)} &deg;c`;
+            }
+            else if(temptype.value==="kelvin"){
+                const kelvintocensius= inputValue-273.15;
+                calsiusfield.innerHTML=`${kelvintocensius.toFixed(3)} &deg;c`;
+            }
+            }, 700);
+        }
+    </script>
+</body>
+</html>
